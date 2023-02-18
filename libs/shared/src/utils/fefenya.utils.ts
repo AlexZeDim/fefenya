@@ -10,7 +10,7 @@ export const randInBetweenInt = (min: number, max: number) =>
 
 /**
  * @description Generate random greeting for GotD command
- * @param username {string} Username
+ * @param userId {string} id of discord guild member
  * */
 export const gotdGreeter = (userId: string) =>
   `${GOTD_GREETING.get(randInBetweenInt(0, GOTD_GREETING.size))} <@${userId}>`;
