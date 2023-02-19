@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { ISlashCommand, ISlashCommandArgs } from '@app/shared/interface';
 import { FEFENYA_COMMANDS, FEFENYA_STORAGE_KEYS } from '@app/shared/enums';
 import { GOTD_GREETING } from '@app/shared/const';
+import { TextChannel } from 'discord.js';
 import {
   fefenyaKeyFormatter,
   gotdGreeter,
@@ -97,10 +98,7 @@ export const gotdCommand: ISlashCommand = {
             ephemeral: false,
           });
         } else {
-          await interaction.followUp({
-            content,
-            ephemeral: false,
-          });
+          await (interaction.channel as TextChannel).send({ content });
         }
       }
     } catch (errorOrException) {
