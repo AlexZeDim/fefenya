@@ -82,17 +82,23 @@ export const gotdCommand: ISlashCommand = {
 
       const randIndex = randInBetweenInt(0, GOTD_GREETING.size);
       const greetingFlow = GOTD_GREETING.get(randIndex);
-      const lastElement = greetingFlow.pop();
+      const arrLength = greetingFlow.length;
+      let content: string;
 
-      for (const greeting of greetingFlow) {
-        if (lastElement === greeting) {
+      for (let i = 0; i < arrLength; i++) {
+        content =
+          arrLength - 1 === i
+            ? gotdGreeter(greetingFlow[i], guildUserIdRandom)
+            : greetingFlow[i];
+
+        if (i === 0) {
           await interaction.reply({
-            content: gotdGreeter(greeting, guildUserIdRandom),
+            content,
             ephemeral: false,
           });
         } else {
-          await interaction.reply({
-            content: greeting,
+          await interaction.followUp({
+            content,
             ephemeral: false,
           });
         }
