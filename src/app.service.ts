@@ -116,8 +116,9 @@ export class AppService implements OnApplicationBootstrap {
 
       this.client.on(Events.GuildCreate, async (guild): Promise<void> => {
         try {
-          for (const userId of guild.members.cache.keys()) {
-            this.redisService.sadd(fefenyaKeyFormatter(guild.id), userId);
+          for (const [userId, GuildMember] of guild.members.cache.entries()) {
+            if (!GuildMember.user.bot)
+              this.redisService.sadd(fefenyaKeyFormatter(guild.id), userId);
           }
         } catch (errorException) {
           this.logger.error(errorException);
@@ -129,9 +130,7 @@ export class AppService implements OnApplicationBootstrap {
         async (interaction): Promise<void> => {
           if (interaction.isChatInputCommand()) {
             try {
-              console.log(interaction.commandName);
               const command = this.commandsMessage.get(interaction.commandName);
-              console.log(this.commandsMessage, command);
               if (!command) return;
               await command.executeInteraction({
                 interaction,
@@ -152,6 +151,8 @@ export class AppService implements OnApplicationBootstrap {
 
       this.client.on(Events.MessageCreate, async (message) => {
         try {
+          if (message.author.bot) return;
+
           await this.redisService.sadd(
             fefenyaKeyFormatter(message.guildId),
             message.member.user.id,

@@ -15,3 +15,8 @@ export enum FEFENYA_STORAGE_KEYS {
 export enum FEFENYA_TEXT_KEYS {
   ALREADY_TRIGGERED = 'ALREADY_TRIGGERED',
 }
+
+export enum FEFENYA_COMMANDS {
+  GOTD = 'gay',
+  GOTS_STATS = 'gaylords',
+}
