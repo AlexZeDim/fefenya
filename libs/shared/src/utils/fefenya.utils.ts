@@ -14,4 +14,7 @@ export const randInBetweenInt = (min: number, max: number) =>
 export const gotdGreeter = (greeting: string, userId: string) =>
   `${greeting} <@${userId}>`;
 
+export const gotdSelected = (greeting: string, username: string) =>
+  `${greeting} ${username}`;
+
 export const fefenyaKeyFormatter = (key: string) => `FEFENYA:${key}`;

@@ -1,4 +1,4 @@
-export const GOTD_GREETING = new Map<number, string[]>([
+export const GOTD_GREETING_FLOW = new Map<number, string[]>([
   [1, ['Сегодня пидор дня — ']],
   [2, ['Ты сегодня пидор дня — ']],
   [
@@ -13,10 +13,10 @@ export const GOTD_GREETING = new Map<number, string[]>([
   [
     4,
     [
-      'Шары надуты',
+      'приглашения и анонсы разосланы',
       'разрешения на митинг получены',
       'улицы перекрыты',
-      'шествие возглавит — ',
+      'шествие парад возглавит — ',
     ],
   ],
   [
@@ -28,5 +28,13 @@ export const GOTD_GREETING = new Map<number, string[]>([
       'ваш профиль уже просматривают',
       'на свидание сегодня идешь, ты — ',
     ],
+  ],
+]);
+
+export const GOTD_SELECTED_FLOW = new Map<number, string>([
+  [1, 'Ты, — котик, а самый милый пидорюга дня:'],
+  [
+    2,
+    'Меня можно призывать раз в день, но пидором дня ты быть не перестанешь, —',
   ],
 ]);

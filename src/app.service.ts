@@ -2,7 +2,7 @@ import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 import { Client, Collection, Events, Partials, REST } from 'discord.js';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GatewayIntentBits, Routes } from 'discord-api-types/v10';
+import { ChannelType, GatewayIntentBits, Routes } from 'discord-api-types/v10';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 import {
@@ -15,9 +15,12 @@ import {
 import {
   FEFENYA_STORAGE_KEYS,
   fefenyaKeyFormatter,
+  GOTD_GREETING_FLOW,
   gotdCommand,
+  gotdGreeter,
   GotsStatsCommand,
   ISlashCommand,
+  randInBetweenInt,
 } from '@app/shared';
 
 import {
@@ -166,15 +169,54 @@ export class AppService implements OnApplicationBootstrap {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_10PM)
   async idleReaction() {
     try {
       const isGotdTriggered = !!(await this.redisService.exists(
         FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS,
       ));
+
+      this.logger.debug(`isGotdTriggered: ${isGotdTriggered}`);
+      // TODO 882360954980012082 ROLE
       if (!isGotdTriggered) {
-        // TODO if not triggered, add flag and link stats with finding a gay
-        this.logger.debug(`isGotdTriggered: ${isGotdTriggered}`);
+        const [channel, guild] = await Promise.all([
+          this.client.channels.fetch('881965561892974672'),
+          this.client.guilds.fetch('881954435662766150'),
+        ]);
+
+        if (!channel || !guild) return;
+
+        const guildUserIdRandom = await this.redisService.srandmember(
+          fefenyaKeyFormatter('881954435662766150'),
+        );
+
+        const guildMember = guild.members.cache.get(guildUserIdRandom);
+        if (!guildMember) return;
+
+        await this.redisService.set(
+          FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS,
+          guildMember.displayName,
+        );
+
+        const randIndex = randInBetweenInt(0, GOTD_GREETING_FLOW.size);
+        const greetingFlow = GOTD_GREETING_FLOW.get(randIndex);
+        const arrLength = greetingFlow.length;
+        let content: string;
+
+        if (channel.type === ChannelType.GuildText) {
+          for (let i = 0; i < arrLength; i++) {
+            content =
+              arrLength - 1 === i
+                ? gotdGreeter(greetingFlow[i], guildUserIdRandom)
+                : greetingFlow[i];
+
+            if (i === 0) {
+              await channel.send({ content });
+            } else {
+              await channel.send({ content });
+            }
+          }
+        }
       } else {
         this.redisService.del(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS);
       }

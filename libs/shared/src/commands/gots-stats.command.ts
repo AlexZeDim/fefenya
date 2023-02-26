@@ -31,13 +31,14 @@ export const GotsStatsCommand: ISlashCommand = {
         },
       });
 
+      const now = new Date();
+
       const embed = new EmbedBuilder()
         .setColor(0x0099ff)
-        .setTitle('Зал славы')
-        .setDescription(':rainbow_flag:')
-        .setTimestamp(new Date())
+        .setTitle(':rainbow_flag: Зал славы :transgender_flag: ')
+        .setTimestamp(now)
         .setFooter({
-          text: 'Managed & operated by CMNW',
+          text: 'CMNW',
           iconURL: 'https://i.imgur.com/OBDcu7K.png',
         });
 

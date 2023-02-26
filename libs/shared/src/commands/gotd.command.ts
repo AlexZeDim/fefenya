@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { ISlashCommand, ISlashCommandArgs } from '@app/shared/interface';
-import { GOTD_GREETING } from '@app/shared/const';
+import { GOTD_GREETING_FLOW, GOTD_SELECTED_FLOW } from '@app/shared/const';
 import { TextChannel } from 'discord.js';
 
 import {
@@ -12,6 +12,7 @@ import {
 import {
   fefenyaKeyFormatter,
   gotdGreeter,
+  gotdSelected,
   randInBetweenInt,
 } from '@app/shared/utils';
 
@@ -44,8 +45,13 @@ export const gotdCommand: ISlashCommand = {
       ));
 
       if (isGotdTriggered) {
+        const gotdUser = await redis.get(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS);
+
+        const randIndex = randInBetweenInt(0, GOTD_SELECTED_FLOW.size);
+        const greetingFlow = GOTD_SELECTED_FLOW.get(randIndex);
+
         await interaction.reply({
-          content: `Только раз в сутки!`,
+          content: gotdSelected(greetingFlow, gotdUser),
           ephemeral: false,
         });
 
@@ -93,12 +99,15 @@ export const gotdCommand: ISlashCommand = {
         );
       }
 
-      await redis.set(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS, 1);
-
-      const randIndex = randInBetweenInt(0, GOTD_GREETING.size);
-      const greetingFlow = GOTD_GREETING.get(randIndex);
+      const randIndex = randInBetweenInt(0, GOTD_GREETING_FLOW.size);
+      const greetingFlow = GOTD_GREETING_FLOW.get(randIndex);
       const arrLength = greetingFlow.length;
       let content: string;
+
+      await redis.set(
+        FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS,
+        gothUserEntity.name,
+      );
 
       for (let i = 0; i < arrLength; i++) {
         content =
