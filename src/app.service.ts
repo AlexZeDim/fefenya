@@ -176,14 +176,14 @@ export class AppService implements OnApplicationBootstrap {
         FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS,
       ));
 
+      const [channel, guild] = await Promise.all([
+        this.client.channels.fetch('881965561892974672'),
+        this.client.guilds.fetch('881954435662766150'),
+      ]);
+
       this.logger.debug(`isGotdTriggered: ${isGotdTriggered}`);
       // TODO 882360954980012082 ROLE
       if (!isGotdTriggered) {
-        const [channel, guild] = await Promise.all([
-          this.client.channels.fetch('881965561892974672'),
-          this.client.guilds.fetch('881954435662766150'),
-        ]);
-
         if (!channel || !guild) return;
 
         const guildUserIdRandom = await this.redisService.srandmember(
@@ -218,8 +218,9 @@ export class AppService implements OnApplicationBootstrap {
           }
         }
       } else {
-        this.redisService.del(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS);
+        await this.redisService.del(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS);
       }
+      await this.redisService.del(fefenyaKeyFormatter(guild.id));
       return isGotdTriggered;
     } catch (e) {
       console.error(e);
