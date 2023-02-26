@@ -1,15 +1,21 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { ISlashCommand, ISlashCommandArgs } from '@app/shared/interface';
 import { EmbedBuilder } from 'discord.js';
-import { FEFENYA_COMMANDS } from '@app/shared/enums';
+import { FEFENYA_COMMANDS, FEFENYA_DESCRIPTION } from '@app/shared/enums';
 
 export const GotsStatsCommand: ISlashCommand = {
   name: FEFENYA_COMMANDS.GOTS_STATS,
-  description: 'Show heroes of glory hall',
+  description: FEFENYA_DESCRIPTION.GOTD_STATS,
   guildOnly: true,
   slashCommand: new SlashCommandBuilder()
     .setName(FEFENYA_COMMANDS.GOTS_STATS)
-    .setDescription('Show heroes of glory hall'),
+    .setNameLocalizations({
+      ru: FEFENYA_COMMANDS.GOTS_STATS_RU,
+    })
+    .setDescription(FEFENYA_DESCRIPTION.GOTD_STATS)
+    .setDescriptionLocalizations({
+      ru: FEFENYA_DESCRIPTION.GOTD_STATS_RU,
+    }),
 
   async executeInteraction({
     interaction,

@@ -1,8 +1,14 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { ISlashCommand, ISlashCommandArgs } from '@app/shared/interface';
-import { FEFENYA_COMMANDS, FEFENYA_STORAGE_KEYS } from '@app/shared/enums';
 import { GOTD_GREETING } from '@app/shared/const';
 import { TextChannel } from 'discord.js';
+
+import {
+  FEFENYA_COMMANDS,
+  FEFENYA_DESCRIPTION,
+  FEFENYA_STORAGE_KEYS,
+} from '@app/shared/enums';
+
 import {
   fefenyaKeyFormatter,
   gotdGreeter,
@@ -11,13 +17,18 @@ import {
 
 export const gotdCommand: ISlashCommand = {
   name: FEFENYA_COMMANDS.GOTD,
-  description: 'Choose hero of the day',
+  description: FEFENYA_DESCRIPTION.GOTD,
   guildOnly: true,
   slashCommand: new SlashCommandBuilder()
     .setName(FEFENYA_COMMANDS.GOTD)
-    .setDescription('Set up gay of the day'),
+    .setNameLocalizations({
+      ru: FEFENYA_COMMANDS.GOTD_RU,
+    })
+    .setDescription(FEFENYA_DESCRIPTION.GOTD)
+    .setDescriptionLocalizations({
+      ru: FEFENYA_DESCRIPTION.GOTD_RU,
+    }),
 
-  // TODO add localize to commands
   async executeInteraction({
     interaction,
     redis,
@@ -26,7 +37,7 @@ export const gotdCommand: ISlashCommand = {
   }: ISlashCommandArgs): Promise<void> {
     if (!interaction.isChatInputCommand()) return;
     try {
-      logger.log('command is triggered');
+      logger.log(`${FEFENYA_COMMANDS.GOTD} has been triggered`);
 
       const isGotdTriggered = !!(await redis.exists(
         FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS,
@@ -75,7 +86,10 @@ export const gotdCommand: ISlashCommand = {
       } else {
         await repository.update(
           { id: guildUserIdRandom },
-          { count: gothUserEntity.count + 1 },
+          {
+            name: gothUserEntity.name,
+            count: gothUserEntity.count + 1,
+          },
         );
       }
 
