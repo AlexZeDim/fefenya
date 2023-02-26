@@ -9,13 +9,7 @@ export const GotsStatsCommand: ISlashCommand = {
   guildOnly: true,
   slashCommand: new SlashCommandBuilder()
     .setName(FEFENYA_COMMANDS.GOTS_STATS)
-    .setNameLocalizations({
-      ru: FEFENYA_COMMANDS.GOTS_STATS_RU,
-    })
-    .setDescription(FEFENYA_DESCRIPTION.GOTD_STATS)
-    .setDescriptionLocalizations({
-      ru: FEFENYA_DESCRIPTION.GOTD_STATS_RU,
-    }),
+    .setDescription(FEFENYA_DESCRIPTION.GOTD_STATS),
 
   async executeInteraction({
     interaction,

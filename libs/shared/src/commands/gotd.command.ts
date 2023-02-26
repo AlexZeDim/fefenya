@@ -22,13 +22,7 @@ export const gotdCommand: ISlashCommand = {
   guildOnly: true,
   slashCommand: new SlashCommandBuilder()
     .setName(FEFENYA_COMMANDS.GOTD)
-    .setNameLocalizations({
-      ru: FEFENYA_COMMANDS.GOTD_RU,
-    })
-    .setDescription(FEFENYA_DESCRIPTION.GOTD)
-    .setDescriptionLocalizations({
-      ru: FEFENYA_DESCRIPTION.GOTD_RU,
-    }),
+    .setDescription(FEFENYA_DESCRIPTION.GOTD),
 
   async executeInteraction({
     interaction,
