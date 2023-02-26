@@ -198,7 +198,7 @@ export class AppService implements OnApplicationBootstrap {
           guildMember.displayName,
         );
 
-        const randIndex = randInBetweenInt(0, GOTD_GREETING_FLOW.size);
+        const randIndex = randInBetweenInt(1, GOTD_GREETING_FLOW.size);
         const greetingFlow = GOTD_GREETING_FLOW.get(randIndex);
         const arrLength = greetingFlow.length;
         let content: string;

@@ -41,7 +41,7 @@ export const gotdCommand: ISlashCommand = {
       if (isGotdTriggered) {
         const gotdUser = await redis.get(FEFENYA_STORAGE_KEYS.GOTD_TOD_STATUS);
 
-        const randIndex = randInBetweenInt(0, GOTD_SELECTED_FLOW.size);
+        const randIndex = randInBetweenInt(1, GOTD_SELECTED_FLOW.size);
         const greetingSelectedFlow = GOTD_SELECTED_FLOW.get(randIndex);
 
         await interaction.reply({
@@ -93,7 +93,7 @@ export const gotdCommand: ISlashCommand = {
         );
       }
 
-      const randIndex = randInBetweenInt(0, GOTD_GREETING_FLOW.size);
+      const randIndex = randInBetweenInt(1, GOTD_GREETING_FLOW.size);
       const greetingFlow = GOTD_GREETING_FLOW.get(randIndex);
       const arrLength = greetingFlow.length;
       let content: string;
