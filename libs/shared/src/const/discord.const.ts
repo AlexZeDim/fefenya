@@ -32,7 +32,7 @@ export const GOTD_GREETING_FLOW = new Map<number, string[]>([
 ]);
 
 export const GOTD_SELECTED_FLOW = new Map<number, string>([
-  [1, 'Ты, — котик, а самый милый пидорюга дня:'],
+  [1, 'Ты, — котик, я котик, а самый милый пидорюга дня:'],
   [
     2,
     'Меня можно призывать раз в день, но пидором дня ты быть не перестанешь, —',
