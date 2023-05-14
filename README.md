@@ -4,19 +4,4 @@
 
 # Fefenya 🌸
 
-This bot is a small contribution maden by me for [Efhen](Efhen🌸#6227).
-
-## Deployment
-
-```dotenv
-NODE_ENV=production
-REDIS_HOST=
-REDIS_PORT=
-REDIS_PASSWORD=
-POSTGRES_HOST=
-POSTGRES_PORT=
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-DISCORD_TOKEN=
-```
+Current repository has been permanently removed to **[CMNW-Oraculum](https://github.com/AlexZeDim/cmnw-oraculum)**. You may found source code, docs & deploy images there.
